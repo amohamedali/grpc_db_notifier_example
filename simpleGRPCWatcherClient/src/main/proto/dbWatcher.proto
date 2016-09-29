@@ -1,0 +1,32 @@
+syntax = "proto3";
+package test;
+
+option java_package = "test";
+option java_outer_classname = "DbWatcherProto";
+option java_multiple_files = true;
+option java_generate_equals_and_hash = true;
+
+service DbWatcherService {
+  rpc watch (DbWatchRequest) returns (stream DbEvent);
+}
+
+message DbWatchRequest {
+}
+
+message DbEvent {
+  DbAction action = 1;
+  Person person = 2;
+}
+
+enum DbAction {
+  UPDATE = 0;
+  VIEW = 1;
+  CREATE = 2;
+  DELETE = 3;
+}
+
+message Person {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+}

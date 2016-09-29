@@ -1,0 +1,14 @@
+#!/bin/sh
+
+
+PROTOC_BIN=protoc
+PROTOC_PLUGIN=`which grpc_tools_ruby_protoc_plugin`
+OUTPUT_PATH=ruby_notifier_server/
+PROTOS_PATH=simpleGRPCWatcherClient/src/main/proto/
+
+proto_files="simpleGRPCWatcherClient/src/main/proto/dbWatcher.proto"
+
+for file in $proto_files
+do
+  $PROTOC_BIN -I $PROTOS_PATH --ruby_out=$OUTPUT_PATH --grpc_out=$OUTPUT_PATH --plugin=protoc-gen-grpc=$PROTOC_PLUGIN  "$file"
+done

@@ -1,0 +1,10 @@
+development:
+  clients:
+    default:
+      database: db_notifier_example
+      hosts:
+        - localhost:27017
+    local_db:
+      database: local
+      hosts:
+        - localhost:27017
