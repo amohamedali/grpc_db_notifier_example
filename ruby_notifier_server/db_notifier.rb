@@ -14,20 +14,22 @@ require 'db_watcher'
 require 'db_notifier_server'
 
 
-def boot
-  logger = ServerLogger.instance.logger
+class DbNotifier
+  def self.boot
+    logger = ServerLogger.instance.logger
 
-  logger.info("[Boot][Mongo] connecting to diffrent shards")
+    logger.info("[Boot][Mongo] connecting to diffrent shards")
 
-  s = GRPC::RpcServer.new(pool_size: 10)
+    s = GRPC::RpcServer.new(pool_size: 10)
 
-  host = 'localhost:50052'
+    host = 'localhost:50052'
 
-  s.add_http2_port(host, :this_port_is_insecure)
-  logger.info("[Boot][GRPC] running insecurely on #{host}")
+    s.add_http2_port(host, :this_port_is_insecure)
+    logger.info("[Boot][GRPC] running insecurely on #{host}")
 
-  s.handle(DbNotifierServer.instance)
-  s.run_till_terminated
+    s.handle(DbNotifierServer.instance)
+    s.run_till_terminated
+  end
 end
 
-boot
+DbNotifier.boot
